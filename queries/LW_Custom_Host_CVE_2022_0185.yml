@@ -1,0 +1,40 @@
+queryId: LW_Custom_Host_CVE_2022_0185
+queryText: |-
+    LW_Custom_Host_CVE_2022_0185 {
+        source {
+            LW_HE_MACHINES
+        }
+        filter {
+            (OS = 'Amazon Linux'
+            and OS_VERSION = '2'
+            and to_double(substring(KERNEL_RELEASE, 1, 1)) = 5
+            and to_double(substring(KERNEL_RELEASE, 3, 1)) >= 1
+            and to_double(substring(KERNEL_RELEASE, 3, 1)) <= 4
+            and to_double(substring(KERNEL_RELEASE, 5, 3)) < 172)
+            or
+            (OS = 'Container-Optimized OS'
+            and to_double(substring(KERNEL_RELEASE, 1, 1)) = 5
+            and to_double(substring(KERNEL_RELEASE, 3, 1)) >= 1
+            and ((OS_VERSION = '85'
+                and to_double(substring(KERNEL_RELEASE, 3, 1)) <= 4
+                and to_double(substring(KERNEL_RELEASE, 5, 3)) < 150)
+                OR (OS_VERSION = '89'
+                    and to_double(substring(KERNEL_RELEASE, 3, 1)) <= 4
+                    and to_double(substring(KERNEL_RELEASE, 5, 3)) < 170)
+                OR (OS_VERSION = '93'
+                    and to_double(substring(KERNEL_RELEASE, 3, 1)) <= 10
+                    and to_double(substring(KERNEL_RELEASE, 5, 3)) < 90)))
+        }
+        return {
+            MID,
+            HOSTNAME,
+            KERNEL,
+            KERNEL_RELEASE,
+            KERNEL_VERSION,
+            OS,
+            OS_VERSION,
+            TAGS,
+            TAGS:"eks:cluster-name"::String as CLUSTER_NAME,
+            TAGS:"eks:nodegroup-name"::String as CLUSTER_NODE_GROUP
+        }
+    }

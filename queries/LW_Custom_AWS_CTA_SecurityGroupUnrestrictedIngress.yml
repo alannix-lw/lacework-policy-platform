@@ -1,0 +1,22 @@
+evaluatorId: Cloudtrail
+queryId: LW_Custom_AWS_CTA_SecurityGroupUnrestrictedIngress
+queryText: |-
+    LW_Custom_AWS_CTA_SecurityGroupUnrestrictedIngress {
+        source {
+            CloudTrailRawEvents e,
+            array_to_rows(e.EVENT:requestParameters.ipPermissions.items) as (ip_permissions),
+            array_to_rows(ip_permissions:ipRanges.items) as (ip_ranges)
+        }
+        filter {
+            EVENT_SOURCE = 'ec2.amazonaws.com'
+            and EVENT_NAME = 'AuthorizeSecurityGroupIngress'
+            and ip_ranges:cidrIp = '0.0.0.0/0'
+            and ERROR_CODE is null
+        }
+        return distinct {
+            INSERT_ID,
+            INSERT_TIME,
+            EVENT_TIME,
+            EVENT
+        }
+    }

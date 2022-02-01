@@ -1,0 +1,15 @@
+policies:
+  - policyId: lwcustom-3
+    title: Usage of 'sudo' to launch a process detected
+    enabled: true
+    policyType: Violation
+    alertEnabled: true
+    alertProfile: LW_HE_PROCESSES_DEFAULT_PROFILE.HE_Process_NewViolation
+    evalFrequency: Hourly
+    queryId: LW_Custom_Host_Process_SudoUsage
+    limit: 1000
+    severity: high
+    description: |-
+      A host process was launched using 'sudo' that has not been explicitly allowed
+    remediation: |-
+      Verify 'sudo' usage was necessary for process execution

@@ -1,0 +1,20 @@
+evaluatorId: Cloudtrail
+queryId: LW_Custom_AWS_CTA_UsageOfRootAccount
+queryText: |-
+    LW_Custom_AWS_CTA_UsageOfRootAccount {
+        SOURCE {
+            CloudTrailRawEvents
+        }
+        FILTER {
+            UPPER(EVENT:userIdentity."type"::String) = 'ROOT'
+            AND NOT VALUE_EXISTS(EVENT:userIdentity.invokedBy)
+            AND EVENT:eventType::String <> 'AwsServiceEvent'
+            AND ERROR_CODE IS NULL
+        }
+        RETURN DISTINCT {
+            INSERT_ID,
+            INSERT_TIME,
+            EVENT_TIME,
+            EVENT
+        }
+    }

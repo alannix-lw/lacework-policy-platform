@@ -1,0 +1,16 @@
+policies:
+  - policyId: lwcustom-2
+    evaluatorId: Cloudtrail
+    title: Unrestricted Ingress Rule Added to Security Group
+    enabled: true
+    policyType: Violation
+    alertEnabled: true
+    alertProfile: LW_CloudTrail_Alerts.CloudTrailDefaultAlert_AwsResource
+    evalFrequency: Hourly
+    queryId: LW_Custom_AWS_CTA_SecurityGroupUnrestrictedIngress
+    limit: 1000
+    severity: high
+    description: |-
+      A rule has been added to a security group that allows unrestricted ingress
+    remediation: |-
+      Remove any inbound rules on security groups that allow unrestricted ingress

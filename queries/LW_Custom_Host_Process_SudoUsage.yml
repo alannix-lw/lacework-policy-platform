@@ -1,0 +1,22 @@
+queryId: LW_Custom_Host_Process_SudoUsage
+queryText: |-
+    LW_Custom_Host_Process_SudoUsage {
+        source {
+            LW_HE_PROCESSES
+        }
+        filter {
+            starts_with(CMDLINE, 'sudo')
+            and not (
+                starts_with(LTRIM(SUBSTRING(CMDLINE, 5)), 'yum')
+            )
+        }
+        return {
+            MID,
+            CMDLINE,
+            EXE_PATH,
+            PID,
+            PID_HASH,
+            PROCESS_START_TIME,
+            USERNAME
+        }
+    }

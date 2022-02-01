@@ -1,0 +1,16 @@
+policies:
+  - policyId: lwcustom-1
+    evaluatorId: Cloudtrail
+    title: Usage of the 'root' account detected
+    enabled: true
+    policyType: Violation
+    alertEnabled: true
+    alertProfile: LW_CloudTrail_Alerts.CloudTrailDefaultAlert_AwsResource
+    evalFrequency: Hourly
+    queryId: LW_Custom_AWS_CTA_UsageOfRootAccount
+    limit: 1000
+    severity: high
+    description: |-
+      Usage of the 'root' account is not recommended beyond initial configuration
+    remediation: |-
+      Verify 'root' access and ensure that only specified users can use the account
